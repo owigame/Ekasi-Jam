@@ -51,19 +51,19 @@ public class VRHandInput : MonoBehaviour {
 
 	void InputTrigger () {
 		triggerAxis = Input.GetAxis (hand.Prefix () + "TriggerSqueeze");
+		if (Input.GetButtonDown (hand.Prefix () + "TriggerPress")) {
+			DebugInput ("Trigger Pressed");
+			OnTriggerPressed.Invoke ();
+		}
 		if (triggerAxis > triggerThreshold) {
-			if (Input.GetButtonDown (hand.Prefix () + "TriggerPress")) {
-				DebugInput ("Trigger Pressed");
-				OnTriggerPressed.Invoke ();
-			}
 			if (Input.GetButton (hand.Prefix () + "TriggerPress")) {
 				DebugInput ("Trigger Squeeze: " + triggerAxis);
 			}
-			if (Input.GetButtonUp (hand.Prefix () + "TriggerPress")) {
-				triggerAxis = 0;
-				DebugInput ("Trigger Released");
-				OnTriggerReleased.Invoke ();
-			}
+		}
+		if (Input.GetButtonUp (hand.Prefix () + "TriggerPress")) {
+			triggerAxis = 0;
+			DebugInput ("Trigger Released");
+			OnTriggerReleased.Invoke ();
 		}
 	}
 	void InputGrip () {
